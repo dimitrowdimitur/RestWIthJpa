@@ -1,4 +1,6 @@
-package com.example.restwithjpa.RestWithJpaProject.pojo;
+package com.example.restwithjpa.RestWithJpaProject.client;
+
+import com.example.restwithjpa.RestWithJpaProject.transaction.MoneyTransaction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -14,6 +16,8 @@ public class Client {
     private String firstName;
     private String lastName;
     private @Size(min = 10, max = 10, message = "EGN should be 10 characters") String egn;
+    @Transient
+    private int amountOfAllTransactions;
 
     @OneToMany(mappedBy = "client")
     private List<MoneyTransaction> moneyTransaction;
@@ -97,5 +101,19 @@ public class Client {
      */
     public void setMoneyTransaction(List<MoneyTransaction> moneyTransaction) {
         this.moneyTransaction = moneyTransaction;
+    }
+
+    /**
+     * @return
+     */
+    public int getAmountOfAllTransactions() {
+        return amountOfAllTransactions;
+    }
+
+    /**
+     * @param amountOfAllTransactions
+     */
+    public void setAmountOfAllTransactions(int amountOfAllTransactions) {
+        this.amountOfAllTransactions = amountOfAllTransactions;
     }
 }

@@ -1,14 +1,12 @@
-package com.example.restwithjpa.RestWithJpaProject.services;
+package com.example.restwithjpa.RestWithJpaProject.transaction;
 
-import com.example.restwithjpa.RestWithJpaProject.pojo.Client;
-import com.example.restwithjpa.RestWithJpaProject.pojo.MoneyTransaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface MoneyTransactionRepository extends JpaRepository<MoneyTransaction, Long> {
-    @Query(value = "SELECT * FROM MONEY_TRANSACTION t WHERE t.CLIENT_ID = ?1 AND t.AMOUNT > ?2", nativeQuery = true)
+    @Query(value = "SELECT t FROM MoneyTransaction t WHERE t.client.id = ?1 AND t.amount > ?2")
     List<MoneyTransaction> transactionsByUserBiggerThan(Long id, int amount);
 
 }

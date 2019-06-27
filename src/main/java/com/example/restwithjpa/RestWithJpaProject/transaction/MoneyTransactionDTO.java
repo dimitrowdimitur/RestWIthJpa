@@ -1,15 +1,16 @@
-package com.example.restwithjpa.RestWithJpaProject.controller;
+package com.example.restwithjpa.RestWithJpaProject.transaction;
 
+import com.example.restwithjpa.RestWithJpaProject.client.Client;
+import com.example.restwithjpa.RestWithJpaProject.client.ClientRepository;
 import com.example.restwithjpa.RestWithJpaProject.exceptions.ResourceNotFoundException;
-import com.example.restwithjpa.RestWithJpaProject.pojo.Client;
-import com.example.restwithjpa.RestWithJpaProject.pojo.MoneyTransaction;
-import com.example.restwithjpa.RestWithJpaProject.services.ClientRepository;
-import com.example.restwithjpa.RestWithJpaProject.services.MoneyTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -18,8 +19,8 @@ import java.util.Optional;
 
 import static com.example.restwithjpa.RestWithJpaProject.utils.ExceptionUtil.allowExceptionThrowing;
 
-@RestController
-public class MoneyTransactionController {
+@Service
+public class MoneyTransactionDTO {
 
     @Autowired
     private MessageSource messageSource;
@@ -28,7 +29,10 @@ public class MoneyTransactionController {
     @Autowired
     private MoneyTransactionRepository moneyTransactionRepository;
 
-    @GetMapping("/transaction/{id}")
+    /**
+     * @param id
+     * @return
+     */
     public Optional getTransaction(@PathVariable long id){
         Optional<MoneyTransaction> transaction = moneyTransactionRepository.findById(id);
         allowExceptionThrowing(transaction, new ResourceNotFoundException(
@@ -36,7 +40,11 @@ public class MoneyTransactionController {
         return transaction;
     }
 
-    @PostMapping("/transaction/user/{id}")
+    /**
+     * @param id
+     * @param moneyTransaction
+     * @return
+     */
     public ResponseEntity addTransaction(@PathVariable long id, @Valid @RequestBody MoneyTransaction moneyTransaction){
         Optional<Client> client = clientRepository.findById(id);
         allowExceptionThrowing(client, new ResourceNotFoundException(

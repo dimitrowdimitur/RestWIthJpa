@@ -9,7 +9,7 @@ public class ClientPredicateUtil {
      * Check if Optional is empty
      * @return
      */
-    public static Predicate<Optional> isPresent(){
+    public static Predicate<Optional> isNotPresent(){
         return optional -> !optional.isPresent();
     }
 }

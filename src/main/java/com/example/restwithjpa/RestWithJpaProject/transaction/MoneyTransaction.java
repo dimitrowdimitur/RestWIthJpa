@@ -1,10 +1,10 @@
-package com.example.restwithjpa.RestWithJpaProject.pojo;
+package com.example.restwithjpa.RestWithJpaProject.transaction;
 
+import com.example.restwithjpa.RestWithJpaProject.client.Client;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class MoneyTransaction {
