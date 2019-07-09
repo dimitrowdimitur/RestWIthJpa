@@ -1,113 +1,63 @@
 package com.example.restwithjpa.RestWithJpaProject.client;
 
-import com.example.restwithjpa.RestWithJpaProject.exceptions.ResourceNotFoundException;
 import com.example.restwithjpa.RestWithJpaProject.transaction.MoneyTransaction;
-import com.example.restwithjpa.RestWithJpaProject.transaction.MoneyTransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static com.example.restwithjpa.RestWithJpaProject.utils.ExceptionUtil.allowExceptionThrowing;
-
-@Service
 public class ClientDTO {
 
-    @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
-    private MoneyTransactionRepository moneyTransactionRepository;
-    @Autowired
-    private MessageSource messageSource;
+    private long id;
+    private String firstName;
+    private String lastName;
+    private String egn;
+    private int amountOfAllTransactions;
+    private List<MoneyTransaction> moneyTransaction;
 
-    /**
-     * @param id
-     * @return
-     */
-    public Optional getClientById(long id){
-        Optional<Client> client = clientRepository.findById(id);
-        allowExceptionThrowing(client, new ResourceNotFoundException(
-                messageSource.getMessage("client.not.found.exception", null, LocaleContextHolder.getLocale())));
-        return client;
+    public long getId() {
+        return id;
     }
 
-
-    /**
-     * @return
-     */
-    public List<Client> getAllClients(){
-        return clientRepository.findAll();
+    public void setId(long id) {
+        this.id = id;
     }
 
-    /**
-     * @param client
-     * @return
-     */
-    public ResponseEntity addClient(@Valid @RequestBody Client client){
-        clientRepository.save(client);
-        URI generatedUri =
-                ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId()).toUri();
-        return ResponseEntity.created(generatedUri).build();
+    public String getFirstName() {
+        return firstName;
     }
 
-    /**
-     * @param id
-     * @return
-     */
-    public ResponseEntity<Object> deleteClient(@PathVariable long id){
-        Optional<Client> client = clientRepository.findById(id);
-        allowExceptionThrowing(client, new ResourceNotFoundException(
-                messageSource.getMessage("client.not.found.exception", null, LocaleContextHolder.getLocale())));
-        clientRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    /**
-     * @param id
-     * @return
-     */
-    public List<MoneyTransaction> getAllTransactionsForClient(@PathVariable long id){
-        Optional<Client> client = clientRepository.findById(id);
-        allowExceptionThrowing(client, new ResourceNotFoundException(
-                messageSource.getMessage("client.not.found.exception", null, LocaleContextHolder.getLocale())));
-        return client.get().getMoneyTransaction();
+    public String getLastName() {
+        return lastName;
     }
 
-    /**
-     * @param id
-     * @param amount
-     * @return
-     */
-    public List<MoneyTransaction> getAllTransactionByUserBiggerThan(@PathVariable long id, @PathVariable int amount){
-        Optional<Client> client = clientRepository.findById(id);
-        allowExceptionThrowing(client, new ResourceNotFoundException(
-                messageSource.getMessage("client.not.found.exception", null, LocaleContextHolder.getLocale())));
-        return moneyTransactionRepository.transactionsByUserBiggerThan(id, amount);
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    /**
-     * @param amount
-     * @return
-     */
-    public List<Client> getAllClientsWithTotalTransactions(@PathVariable int amount){
-        List<Object []> clientsWIthTranscationsSum = clientRepository.getClientsWithTotalAmountOfTransactions(amount);
-        List<Client> clients = new ArrayList<>();
-        for (Object[] objects: clientsWIthTranscationsSum){
-            Optional<Client> client = clientRepository.findById(Long.parseLong(objects[0].toString()));
-            client.get().setAmountOfAllTransactions(Integer.parseInt(
-                    objects[1].toString()));
-            clients.add(client.get());
-        }
-        return clients;
+    public String getEgn() {
+        return egn;
     }
 
+    public void setEgn(String egn) {
+        this.egn = egn;
+    }
+
+    public int getAmountOfAllTransactions() {
+        return amountOfAllTransactions;
+    }
+
+    public void setAmountOfAllTransactions(int amountOfAllTransactions) {
+        this.amountOfAllTransactions = amountOfAllTransactions;
+    }
+
+    public List<MoneyTransaction> getMoneyTransaction() {
+        return moneyTransaction;
+    }
+
+    public void setMoneyTransaction(List<MoneyTransaction> moneyTransaction) {
+        this.moneyTransaction = moneyTransaction;
+    }
 }

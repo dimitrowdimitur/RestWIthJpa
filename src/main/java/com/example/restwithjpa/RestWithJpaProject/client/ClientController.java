@@ -11,43 +11,44 @@ import java.util.Optional;
 
 
 @RestController
+@RequestMapping(value = "/client")
 public class ClientController {
 
     @Autowired
-    private ClientDTO clientDTO;
+    private ClientService clientService;
 
-    @GetMapping("/client/{id}")
+    @GetMapping("/{id}")
     public Optional getClientById(@PathVariable long id) {
-        return clientDTO.getClientById(id);
+        return clientService.getClientById(id);
     }
 
-    @GetMapping(path = "/client/getAllClients")
+    @GetMapping(path = "/getAllClients")
     public List<Client> getAllClients(){
-        return clientDTO.getAllClients();
+        return clientService.getAllClients();
     }
 
-    @PostMapping(path = "/client")
-    public ResponseEntity addClient(@Valid @RequestBody Client client){
-        return clientDTO.addClient(client);
+    @PostMapping
+    public ResponseEntity addClient(@Valid @RequestBody ClientDTO clientDTO){
+        return clientService.addClient(clientDTO);
     }
 
-    @DeleteMapping(path = "/client/{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<Object> deleteClient(@PathVariable long id){
-        return clientDTO.deleteClient(id);
+        return clientService.deleteClient(id);
     }
 
-    @GetMapping(path = "/client/{id}/all-transactions")
+    @GetMapping(path = "/{id}/all-transactions")
     public List<MoneyTransaction> getAllTransactionsForClient(@PathVariable long id){
-        return clientDTO.getAllTransactionsForClient(id);
+        return clientService.getAllTransactionsForClient(id);
     }
 
-    @GetMapping(path = "/client/{id}/transactions/{amount}")
+    @GetMapping(path = "/{id}/transactions/{amount}")
     public List<MoneyTransaction> getAllTransactionByUserBiggerThan(@PathVariable long id, @PathVariable int amount){
-        return clientDTO.getAllTransactionByUserBiggerThan(id, amount);
+        return clientService.getAllTransactionByUserBiggerThan(id, amount);
     }
 
-    @GetMapping(path = "/client/all-transactions/total/{amount}")
-    public List<Client> getAllClientsWithTotalTransactions(@PathVariable int amount){
-        return clientDTO.getAllClientsWithTotalTransactions(amount);
+    @GetMapping(path = "/all-transactions/total/{amount}")
+    public List<ClientDTO> getAllClientsWithTotalTransactions(@PathVariable int amount){
+        return clientService.getAllClientsWithTotalTransactions(amount);
     }
 }

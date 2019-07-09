@@ -10,7 +10,7 @@ import javax.validation.constraints.Min;
 public class MoneyTransaction {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @Min(1)
     private int amount;
@@ -25,14 +25,14 @@ public class MoneyTransaction {
     /**
      * @return
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @return
      */
-    public int getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 

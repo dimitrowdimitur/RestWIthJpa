@@ -11,13 +11,13 @@ public class Client {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private String firstName;
     private String lastName;
     private @Size(min = 10, max = 10, message = "EGN should be 10 characters") String egn;
     @Transient
-    private int amountOfAllTransactions;
+    private Integer amountOfAllTransactions;
 
     @OneToMany(mappedBy = "client")
     private List<MoneyTransaction> moneyTransaction;
@@ -39,7 +39,7 @@ public class Client {
     /**
      * @return
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -106,7 +106,7 @@ public class Client {
     /**
      * @return
      */
-    public int getAmountOfAllTransactions() {
+    public Integer getAmountOfAllTransactions() {
         return amountOfAllTransactions;
     }
 

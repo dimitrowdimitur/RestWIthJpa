@@ -8,18 +8,19 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
+@RequestMapping(value = "/transaction")
 public class MoneyTransactionController {
 
     @Autowired
-    private MoneyTransactionDTO moneyTransactionDTO;
+    private MoneyTransactionService moneyTransactionService;
 
-    @GetMapping("/transaction/{id}")
+    @GetMapping("/{id}")
     public Optional getTransaction(@PathVariable long id){
-        return moneyTransactionDTO.getTransaction(id);
+        return moneyTransactionService.getTransaction(id);
     }
 
-    @PostMapping("/transaction/user/{id}")
-    public ResponseEntity addTransaction(@PathVariable long id, @Valid @RequestBody MoneyTransaction moneyTransaction){
-        return moneyTransactionDTO.addTransaction(id, moneyTransaction);
+    @PostMapping("/user/{id}")
+    public ResponseEntity addTransaction(@PathVariable long id, @Valid @RequestBody MoneyTransactionDTO moneyTransactionDTO){
+        return moneyTransactionService.addTransaction(id, moneyTransactionDTO);
     }
 }
