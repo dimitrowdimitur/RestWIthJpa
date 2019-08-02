@@ -24,14 +24,18 @@ import static com.example.restwithjpa.RestWithJpaProject.utils.ExceptionUtil.all
 @Service
 public class ClientService {
 
+    private final ClientRepository clientRepository;
+    private final MoneyTransactionRepository moneyTransactionRepository;
+    private final MessageSource messageSource;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
-    private MoneyTransactionRepository moneyTransactionRepository;
-    @Autowired
-    private MessageSource messageSource;
-    @Autowired
-    private ModelMapper modelMapper;
+    public ClientService(ClientRepository clientRepository, MoneyTransactionRepository moneyTransactionRepository, MessageSource messageSource, ModelMapper modelMapper) {
+        this.clientRepository = clientRepository;
+        this.moneyTransactionRepository = moneyTransactionRepository;
+        this.messageSource = messageSource;
+        this.modelMapper = modelMapper;
+    }
 
     /**
      * @param id
